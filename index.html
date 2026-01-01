@@ -17,7 +17,247 @@
         <h3><i class="fas fa-info-circle"></i> راهنمای استفاده</h3>
         <p>این کاربرگ‌ها بر اساس رویکرد تفکیک آموزشی طراحی شده‌اند. هر مسیر (C, B, A) نه تنها از نظر سطح دشواری، بلکه از نظر نوع فعالیت، ابزارهای مورد استفاده و سبک یادگیری متفاوت است. لطفاً پس از ارزیابی اولیه، مسیر مناسب را برای دانش‌آموز انتخاب کنید.</p>
     </div>
+    <!-- Modal برای نمایش ویدیو -->
+<div id="intro-video-modal" class="video-modal" style="display: none;">
+  <div class="video-modal-content">
+    <div class="video-modal-header">
+      <h2><i class="fas fa-chalkboard-teacher"></i> آموزش کار با کاربرگ کسرها</h2>
+      <button class="close-btn" onclick="closeVideoModal()">&times;</button>
+    </div>
+    <div class="video-container">
+      <video id="tutorial-video" controls autoplay muted>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-teacher-explaining-mathematics-23833-large.mp4" type="video/mp4">
+        مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+      </video>
+    </div>
+    <div class="video-modal-footer">
+      <p><i class="fas fa-lightbulb"></i> این ویدیو در ۲ دقیقه شیوه استفاده از کاربرگ‌ها را آموزش می‌دهد.</p>
+      <button class="skip-btn" onclick="closeVideoModal()">رد کردن و شروع کار</button>
+      <button class="watch-btn" onclick="replayVideo()"><i class="fas fa-redo"></i> تماشای مجدد</button>
+    </div>
+  </div>
+</div>
+
+<!-- اضافه کردن به تگ <style> در head -->
+<style>
+  /* استایل مودال ویدیو */
+  .video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  .video-modal-content {
+    background-color: white;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .video-modal-header {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .video-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .video-modal-header h2 i {
+    margin-left: 10px;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+  }
+  
+  .close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .video-container {
+    width: 100%;
+    padding: 20px;
+    background-color: #000;
+  }
+  
+  #tutorial-video {
+    width: 100%;
+    max-height: 450px;
+    border-radius: 8px;
+  }
+  
+  .video-modal-footer {
+    padding: 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+  }
+  
+  .video-modal-footer p {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  .video-modal-footer p i {
+    color: #ffd43b;
+    margin-left: 8px;
+  }
+  
+  .skip-btn, .watch-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 0 10px;
+  }
+  
+  .skip-btn {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .watch-btn {
+    background-color: #4dabf7;
+    color: white;
+  }
+  
+  .skip-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+  }
+  
+  .watch-btn:hover {
+    background-color: #339af0;
+    transform: translateY(-2px);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* برای موبایل */
+  @media (max-width: 768px) {
+    .video-modal-content {
+      width: 95%;
+    }
     
+    .video-modal-header h2 {
+      font-size: 1.2rem;
+    }
+    
+    .skip-btn, .watch-btn {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      margin: 5px;
+    }
+    
+    .video-modal-footer {
+      padding: 15px;
+    }
+  }
+</style>
+
+<!-- اضافه کردن به تگ <script> در انتهای body -->
+<script>
+  // نمایش مودال ویدیو هنگام بارگذاری صفحه
+  document.addEventListener('DOMContentLoaded', function() {
+    // بررسی اینکه آیا کاربر قبلاً ویدیو را دیده است
+    const hasWatchedTutorial = localStorage.getItem('hasWatchedTutorial');
+    
+    // اگر اولین بار است که وارد می‌شود، ویدیو را نشان بده
+    if (!hasWatchedTutorial) {
+      setTimeout(() => {
+        const modal = document.getElementById('intro-video-modal');
+        if (modal) {
+          modal.style.display = 'flex';
+          
+          // پخش خودکار ویدیو (با mute برای رعایت قوانین مرورگرها)
+          const video = document.getElementById('tutorial-video');
+          if (video) {
+            video.play().catch(e => {
+              console.log('پخش خودکار ویدیو ممکن نیست:', e);
+            });
+          }
+        }
+      }, 1000); // تأخیر 1 ثانیه‌ای برای بارگذاری کامل صفحه
+    }
+  });
+  
+  // بستن مودال ویدیو
+  function closeVideoModal() {
+    const modal = document.getElementById('intro-video-modal');
+    if (modal) {
+      modal.style.display = 'none';
+      
+      // توقف ویدیو
+      const video = document.getElementById('tutorial-video');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      
+      // ذخیره اینکه کاربر ویدیو را دیده است
+      localStorage.setItem('hasWatchedTutorial', 'true');
+    }
+  }
+  
+  // پخش مجدد ویدیو
+  function replayVideo() {
+    const video = document.getElementById('tutorial-video');
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(e => {
+        console.log('پخش ویدیو ممکن نیست:', e);
+      });
+    }
+  }
+  
+  // کلید Escape برای بستن مودال
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeVideoModal();
+    }
+  });
+  
+  // بستن مودال با کلیک خارج از آن
+  document.getElementById('intro-video-modal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeVideoModal();
+    }
+  });
+</script>
     <div class="path-selector">
         <button class="path-btn path-c-btn active" onclick="controller.showWorksheet('path-c')">
             <i class="fas fa-hands-helping"></i> مسیر C (نیازمند تقویت)
@@ -307,4 +547,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
