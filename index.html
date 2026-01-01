@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کاربرگ اختصاصی کسرها - پایه چهارم</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-pencil-alt"></i> کاربرگ اختصاصی مبحث «کسرها» – پایه چهارم</h1>
+        <p class="subtitle">طراحی شده با رویکرد تفکیک آموزشی واقعی | انتخاب مسیر بر اساس نیاز دانش‌آموز</p>
+    </header>
+    
+    <div class="instructions">
+        <h3><i class="fas fa-info-circle"></i> راهنمای استفاده</h3>
+        <p>این کاربرگ‌ها بر اساس رویکرد تفکیک آموزشی طراحی شده‌اند. هر مسیر (C, B, A) نه تنها از نظر سطح دشواری، بلکه از نظر نوع فعالیت، ابزارهای مورد استفاده و سبک یادگیری متفاوت است. لطفاً پس از ارزیابی اولیه، مسیر مناسب را برای دانش‌آموز انتخاب کنید.</p>
+    </div>
+    
+    <div class="path-selector">
+        <button class="path-btn path-c-btn active" onclick="controller.showWorksheet('path-c')">
+            <i class="fas fa-hands-helping"></i> مسیر C (نیازمند تقویت)
+        </button>
+        <button class="path-btn path-b-btn" onclick="controller.showWorksheet('path-b')">
+            <i class="fas fa-balance-scale"></i> مسیر B (سطح متوسط)
+        </button>
+        <button class="path-btn path-a-btn" onclick="controller.showWorksheet('path-a')">
+            <i class="fas fa-rocket"></i> مسیر A (پیشرفته)
+        </button>
+    </div>
+    
+    <!-- مسیر C -->
+    <div id="path-c" class="worksheet-container path-c-container active">
+        <div class="worksheet-header">
+            <div>
+                <h2 class="path-title">
+                    <i class="fas fa-hands-helping"></i> مسیر C 
+                    <span class="path-indicator path-c-indicator">نیازمند تقویت</span>
+                </h2>
+                <p class="path-focus">تمرکز: درک شهودی – دیداری – عملی | ✋ نوشتن حداقلی | 🎨 تصویرمحور | ✂️ دست‌ورزی</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3 class="section-title"><i class="fas fa-paint-brush"></i> بخش ۱: ببین و کامل کن</h3>
+            
+            <div class="question">
+                <p><span class="question-number">1</span> شکل‌های زیر را رنگ کن:</p>
+                <div class="visual-exercise">
+                    <div class="fraction-input-group">
+                        <p>نصف دایره = <input type="text" class="fraction-input" id="fraction-circle-c" placeholder="1/2" data-shape="circle-c" data-max-fraction="1/2"></p>
+                        <div class="shape-container">
+                            <div class="shape circle" id="circle-c">
+                                <div class="shape-fill"></div>
+                            </div>
+                            <button class="btn-clear" onclick="controller.clearShape('circle-c')"><i class="fas fa-undo"></i> پاک کن</button>
+                        </div>
+                    </div>
+                    
+                    <div class="fraction-input-group">
+                        <p>یک‌چهارم مربع = <input type="text" class="fraction-input" id="fraction-square-c" placeholder="1/4" data-shape="square-c" data-max-fraction="1/4"></p>
+                        <div class="shape-container">
+                            <div class="shape square" id="square-c">
+                                <div class="shape-fill"></div>
+                            </div>
+                            <button class="btn-clear" onclick="controller.clearShape('square-c')"><i class="fas fa-undo"></i> پاک کن</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <p><span class="question-number">2</span> دور شکلی که <strong>بیشتر رنگ شده</strong> خط بکش (روی شکل کلیک کن).</p>
+                <div class="visual-exercise">
+                    <div class="shape-container">
+                        <div class="shape circle shape-selectable" id="shape1" data-fraction="1/2" onclick="controller.selectMostColoredShape('shape1')">
+                            <div class="shape-fill" style="background: linear-gradient(90deg, #4dabf7 50%, transparent 50%);"></div>
+                        </div>
+                        <p>1/2</p>
+                    </div>
+                    
+                    <div class="shape-container">
+                        <div class="shape square shape-selectable" id="shape2" data-fraction="3/4" onclick="controller.selectMostColoredShape('shape2')">
+                            <div class="shape-fill" style="background: linear-gradient(90deg, #ffd43b 75%, transparent 25%);"></div>
+                        </div>
+                        <p>3/4</p>
+                    </div>
+                    
+                    <div class="shape-container">
+                        <div class="shape circle shape-selectable" id="shape3" data-fraction="1/3" onclick="controller.selectMostColoredShape('shape3')">
+                            <div class="shape-fill" style="background: radial-gradient(circle at 30% 30%, #ff6b6b 30%, transparent 30%);"></div>
+                        </div>
+                        <p>1/3</p>
+                    </div>
+                </div>
+                <p id="most-colored-result" class="result-message"></p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3 class="section-title"><i class="fas fa-cut"></i> بخش ۲: بساز و نشان بده</h3>
+            <p style="margin-bottom: 15px; font-style: italic; color: #666;">(با پیتزای کاغذی یا تا کردن برگه)</p>
+            
+            <div class="question">
+                <div class="fraction-builder">
+                    <div class="builder-instruction">
+                        <p><span class="question-number">1</span> 1/2 را بساز و اینجا نمایش بده:</p>
+                        <input type="text" class="fraction-input-small" id="build-fraction-1" placeholder="1/2" data-shape="build-shape-1">
+                        <button class="btn-apply" onclick="controller.applyFraction('build-fraction-1', 'build-shape-1')"><i class="fas fa-check"></i> اعمال</button>
+                    </div>
+                    <div class="shape square" id="build-shape-1">
+                        <div class="shape-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="fraction-builder">
+                    <div class="builder-instruction">
+                        <p><span class="question-number">2</span> 1/4 را بساز و اینجا نمایش بده:</p>
+                        <input type="text" class="fraction-input-small" id="build-fraction-2" placeholder="1/4" data-shape="build-shape-2">
+                        <button class="btn-apply" onclick="controller.applyFraction('build-fraction-2', 'build-shape-2')"><i class="fas fa-check"></i> اعمال</button>
+                    </div>
+                    <div class="shape square" id="build-shape-2">
+                        <div class="shape-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="comparison-question">
+                    <p><span class="question-number">3</span> بگو کدام <strong>کوچک‌تر است</strong>؟</p>
+                    <div class="comparison-options">
+                        <label><input type="radio" name="comparison-c" value="1/2"> 1/2</label>
+                        <label><input type="radio" name="comparison-c" value="1/4"> 1/4</label>
+                        <label><input type="radio" name="comparison-c" value="برابرند"> برابرند</label>
+                    </div>
+                    <button class="btn-check" onclick="controller.checkComparison()"><i class="fas fa-check-circle"></i> بررسی پاسخ</button>
+                    <p id="comparison-result" class="result-message"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3 class="section-title"><i class="fas fa-gamepad"></i> بخش ۳: بازی کوتاه «من کسرم»</h3>
+            <div class="question">
+                <p>اگر کلاس 8 نفر باشد و 4 نفر جلو بیایند:</p>
+                <div class="game-section">
+                    <p>این کسر = <input type="text" class="fraction-input" id="game-fraction" placeholder="?/8" data-total="8"> </p>
+                    <button class="btn-check" onclick="controller.checkGameFraction()"><i class="fas fa-play"></i> بازی کن</button>
+                    <p id="game-result" class="result-message"></p>
+                    
+                    <div class="visual-people">
+                        <div class="people-container">
+                            <p>کل کلاس (8 نفر):</p>
+                            <div class="people-grid" id="total-people">
+                                <!-- افراد به صورت دایره‌ای نشان داده می‌شوند -->
+                            </div>
+                        </div>
+                        
+                        <div class="people-container">
+                            <p>افراد جلو (؟ نفر):</p>
+                            <div class="people-grid" id="front-people">
+                                <!-- افراد جلو -->
+                            </div>
+                            <div class="people-controls">
+                                <button class="btn-people" onclick="controller.addPerson()"><i class="fas fa-plus"></i> اضافه کن</button>
+                                <button class="btn-people" onclick="controller.removePerson()"><i class="fas fa-minus"></i> حذف کن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="teacher-assessment">
+            <h3 class="assessment-title"><i class="fas fa-clipboard-check"></i> ارزیابی معلم</h3>
+            <div class="assessment-item">
+                <input type="checkbox" id="c1" onchange="controller.updateAssessment('c1', this.checked)"> 
+                <label for="c1">مفهوم جزء از کل را عملی نشان می‌دهد</label>
+            </div>
+            <div class="assessment-item">
+                <input type="checkbox" id="c2" onchange="controller.updateAssessment('c2', this.checked)"> 
+                <label for="c2">می‌تواند کسر ساده را تشخیص دهد</label>
+            </div>
+            <div class="next-path">
+                <strong>➡️ در صورت موفقیت:</strong> انتقال به مسیر B
+                <button class="btn-transfer" onclick="controller.transferToPath('b')"><i class="fas fa-arrow-right"></i> انتقال به مسیر B</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- مسیر B -->
+    <div id="path-b" class="worksheet-container path-b-container">
+        <!-- محتوای مسیر B (مشابه ساختار مسیر C) -->
+        <div class="worksheet-header">
+            <div>
+                <h2 class="path-title">
+                    <i class="fas fa-balance-scale"></i> مسیر B 
+                    <span class="path-indicator path-b-indicator">سطح متوسط</span>
+                </h2>
+                <p class="path-focus">تمرکز: عدد + تصویر + استدلال ساده</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3 class="section-title"><i class="fas fa-link"></i> بخش ۱: وصل کن</h3>
+            <p>هر کسر را به شکل درست وصل کن:</p>
+            
+            <div class="question">
+                <div class="matching-game">
+                    <div class="matching-item" data-fraction="1/2" data-shape="match-shape-1">
+                        <span>1/2</span> 
+                        <button class="btn-match" onclick="controller.connectFraction('1/2', 'match-shape-1')"><i class="fas fa-hand-point-right"></i> وصل کن به شکل</button>
+                    </div>
+                    
+                    <div class="shape-container">
+                        <div class="shape circle match-shape" id="match-shape-1" data-expected="1/2">
+                            <div class="shape-fill"></div>
+                        </div>
+                        <p class="match-status" id="match-status-1">منتظر اتصال...</p>
+                    </div>
+                    
+                    <div class="matching-item" data-fraction="3/4" data-shape="match-shape-2">
+                        <span>3/4</span> 
+                        <button class="btn-match" onclick="controller.connectFraction('3/4', 'match-shape-2')"><i class="fas fa-hand-point-right"></i> وصل کن به شکل</button>
+                    </div>
+                    
+                    <div class="shape-container">
+                        <div class="shape square match-shape" id="match-shape-2" data-expected="3/4">
+                            <div class="shape-fill"></div>
+                        </div>
+                        <p class="match-status" id="match-status-2">منتظر اتصال...</p>
+                    </div>
+                </div>
+                <p id="matching-result" class="result-message"></p>
+            </div>
+        </div>
+        
+        <!-- سایر بخش‌های مسیر B -->
+        <div class="teacher-assessment">
+            <h3 class="assessment-title"><i class="fas fa-clipboard-check"></i> ارزیابی</h3>
+            <div class="assessment-item">
+                <input type="checkbox" id="b1" onchange="controller.updateAssessment('b1', this.checked)"> 
+                <label for="b1">مقایسه کسرها</label>
+            </div>
+            <div class="assessment-item">
+                <input type="checkbox" id="b2" onchange="controller.updateAssessment('b2', this.checked)"> 
+                <label for="b2">حل مسئله متنی</label>
+            </div>
+            <div class="next-path">
+                <strong>➡️ اگر بخش ستاره‌دار درست بود:</strong> انتقال به مسیر A
+                <button class="btn-transfer" onclick="controller.transferToPath('a')"><i class="fas fa-arrow-right"></i> انتقال به مسیر A</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- مسیر A -->
+    <div id="path-a" class="worksheet-container path-a-container">
+        <!-- محتوای مسیر A (مشابه ساختار مسیر C) -->
+        <div class="worksheet-header">
+            <div>
+                <h2 class="path-title">
+                    <i class="fas fa-rocket"></i> مسیر A 
+                    <span class="path-indicator path-a-indicator">پیشرفته</span>
+                </h2>
+                <p class="path-focus">تمرکز: استدلال، تبدیل، تولید مسئله</p>
+            </div>
+        </div>
+        
+        <!-- بخش‌های مسیر A -->
+        <div class="teacher-assessment">
+            <h3 class="assessment-title"><i class="fas fa-clipboard-check"></i> ارزیابی</h3>
+            <div class="assessment-item">
+                <input type="checkbox" id="a1" onchange="controller.updateAssessment('a1', this.checked)"> 
+                <label for="a1">تبدیل صحیح</label>
+            </div>
+            <div class="assessment-item">
+                <input type="checkbox" id="a2" onchange="controller.updateAssessment('a2', this.checked)"> 
+                <label for="a2">استدلال عددی</label>
+            </div>
+            <div class="assessment-item">
+                <input type="checkbox" id="a3" onchange="controller.updateAssessment('a3', this.checked)"> 
+                <label for="a3">طراحی مسئله</label>
+            </div>
+            <div class="next-path">
+                <strong>➡️ اگر ضعف مفهومی داشت:</strong> بازگشت موقت به مسیر B
+                <button class="btn-transfer" onclick="controller.transferToPath('b')"><i class="fas fa-arrow-left"></i> بازگشت به مسیر B</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="important-note">
+        <h3><i class="fas fa-exclamation-triangle"></i> نکته بسیار مهم (تفکیک آموزشی واقعی)</h3>
+        <p>اگر کاربرگ مسیر C را فقط «راحت‌تر نمره‌دهی» کنیم یا کاربرگ مسیر A را فقط «سخت‌تر» کنیم، در واقع <strong>تفکیک آموزشی انجام نداده‌ایم، فقط برچسب زده‌ایم.</strong></p>
+        <p>تفاوت واقعی در این کاربرگ‌ها:</p>
+        <ul>
+            <li><strong>مسیر C:</strong> عملی، تصویری، کم‌نوشتاری، دست‌ورزی</li>
+            <li><strong>مسیر B:</strong> تلفیق عدد و تصویر، استدلال ساده، مسئله داستانی</li>
+            <li><strong>مسیر A:</strong> استدلال پیچیده، تبدیل واحد، تولید مسئله</li>
+        </ul>
+    </div>
+    
+    <footer>
+        <p><i class="fas fa-graduation-cap"></i> طراحی شده با رویکرد تفکیک آموزشی | پایه چهارم ابتدایی | مبحث کسرها</p>
+        <p style="margin-top: 10px;">امکان ارتقا: C → B → A | امکان بازگشت: A → B (در صورت نیاز)</p>
+        <button class="btn-save" onclick="controller.saveProgress()"><i class="fas fa-save"></i> ذخیره پیشرفت</button>
+        <button class="btn-reset" onclick="controller.resetAll()"><i class="fas fa-redo"></i> شروع مجدد</button>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
